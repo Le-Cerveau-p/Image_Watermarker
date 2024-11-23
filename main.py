@@ -24,6 +24,7 @@ font_picked = ''
 
 
 
+# Image Processing
 class Image_Dec():
     def __init__(self, url):
         self.url = url
@@ -65,7 +66,7 @@ def write_image(text, font, color, position):
 
 
 
-
+# Function to pick font
 def font_pick():
     def on_mousewheel(event):
         my_canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
@@ -153,17 +154,20 @@ def water_mark_entry():
 
 
 
-
+# Resize Image for viewing on  Tkinter
 def resize(size, length):
     breath = int(size[1] * length/size[0])
     return length, breath
 
+
+# Resize position for stamping watermark on original image
 def position(pos_x, pos_y, x_, y_):
     y_cor = int(y_ * pos_y/size[1])
     x_cor = int(x_ * pos_x/size[0])
     return (x_cor, y_cor)
 
 
+# Load Image picking frame
 def pick_img_fr_():
     global img_picked_frame, pick_img_frame
     img_picked_frame.destroy()
@@ -171,6 +175,7 @@ def pick_img_fr_():
     pick_img_frame.pack(fill="both", expand=True)
 
 
+# Image picking frame
 def pick_img_fr():
     global img
     frame = Frame(root)
@@ -182,6 +187,7 @@ def pick_img_fr():
     return frame
 
 
+# Load frame to show image picked
 def img_picked_fr_():
     global size, img_size
     image_filetypes = [
@@ -207,6 +213,7 @@ def img_picked_fr_():
     img_picked_frame.place(anchor='center', relx=0.5, rely=0.5)
 
 
+# Load Refresh frame to avoid font stain
 def refresh_fr_():
     global pick_img_frame, img_picked_frame, card
     pick_img_frame.destroy()
@@ -216,6 +223,8 @@ def refresh_fr_():
     img_picked_frame.place(anchor='center', relx=0.5, rely=0.5)
 
 
+
+# Frame to show Image picked and watermark
 def img_picked_fr():
     global title, canvas
     frame = Frame(root)
@@ -235,6 +244,7 @@ def img_picked_fr():
     return frame
 
 
+# Refresh frame to avoid font stain
 def refresh_fr():
     global title, canvas
     position = canvas.coords(title)
@@ -247,6 +257,8 @@ def refresh_fr():
     canvas.tag_bind(title, "<Button-1>", drag_start)
     canvas.tag_bind(title, '<B1-Motion>', mov)
 
+
+# stamp watermark and save watermarked image
 def stamp():
     position = canvas.coords(title)
     write_image(text=result['text'], font=font_picked, color=result['color'], position=position)
@@ -257,6 +269,8 @@ root = Tk()
 root.wm_title('Watermarker')
 root.config(pady=20, padx=20)
 
+
+# Key bindings
 def upKey(event):
     canvas.move(title, 0, -1)
     refresh_fr()
@@ -289,6 +303,8 @@ def mov(event):
     refresh_fr()
 
 
+
+# UI declarations and defaults
 pick_img_frame = pick_img_fr()
 pick_img_frame.pack(fill="both", expand=True)
 root.bind('<Left>', leftKey)
